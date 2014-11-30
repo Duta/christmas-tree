@@ -2,7 +2,7 @@
 module ChristmasTree where
 
 import Control.Concurrent.Timer (TimerIO, oneShotTimer)
-import Control.Concurrent.Suspend.Lifted (sDelay)
+import Control.Concurrent.Suspend.Lifted (Delay)
 import Control.Conditional (select)
 import Control.Monad (void)
 import Data.List (maximumBy, intercalate)
@@ -132,11 +132,11 @@ printTrees = mapM_ putStrLn
 (!!!) :: [a] -> Int -> a
 xs !!! n = xs !! (n `mod` length xs)
 
-main :: IO TimerIO
-main = loop 0 >> let x = x in x
+runAnimation :: Delay -> IO ()
+runAnimation delay = loop 0 >> let x = x in x
  where
   loop :: Int -> IO TimerIO
-  loop n = oneShotTimer (action n) $ sDelay 1
+  loop n = oneShotTimer (action n) delay
   action :: Int -> IO ()
   action n = void $ do
     clearFromCursorToScreenBeginning
